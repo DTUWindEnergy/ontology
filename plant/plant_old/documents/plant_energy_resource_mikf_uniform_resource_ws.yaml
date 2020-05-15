@@ -1,0 +1,13 @@
+wind_resource:
+    sectors:
+        n_sec: 12
+    uniform_resource:
+        probability: [0.035972, 0.039487, 0.051674, 0.070002, 0.083645, 0.064348,
+                      0.086432, 0.117705, 0.151576, 0.147379, 0.10012, 0.05166]
+        ti: .1
+        wind_speed: 9.8
+        shear:
+            alpha: 0.1
+            h_ref: 100
+
+

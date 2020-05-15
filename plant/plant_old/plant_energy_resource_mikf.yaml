@@ -1,0 +1,221 @@
+title: Wind resource
+type: object
+required:
+  - wind_resource
+properties:
+    wind_resource:
+        type: object
+        required:
+            - sectors
+            - oneOf:
+                - uniform_resource
+                - non_uniform_resource
+        properties:
+            sectors:
+                description: >-
+                    if only n_sec is given the wind direction sectors are assumed evenly distributed from north in negative mathematical orbital direction
+                    if n_sec = 1 no sector information is available as for e.g. timeseries
+                required:
+                    - n_sec 
+                properties:
+                    n_sec:
+                        type: integer
+                additionalProperties:
+                    edges:
+                        type: array
+                        items: 
+                            type: number # length of n_sec
+            uniform_resource:
+                required:
+                    - probability
+                    - ti
+                    - oneOf:
+                        - wind_speed
+                        - allOf:
+                            - a
+                            - k
+                properties:
+                    probability:
+                        type: array # length of n_sec
+                        items: 
+                            type: number
+                    ti:
+                        type: array # length of n_sec or 1
+                        items: 
+                            type: number
+                    wind_speed:
+                        type: number
+                    a:
+                        type: array # length of n_sec
+                        items: 
+                            type: number
+                    k:
+                        type: array # length of n_sec
+                        items: 
+                            type: number
+                additionalProperties:
+                    shear:
+                        required:
+                            - alpha
+                            - h_ref
+                        properties:
+                            alpha:
+                                type: number
+                        properties:
+                            h_ref:
+                                type: number
+            non_uniform_resource: 
+                type: object
+                required:
+                    - n_loc
+                    - oneOf:
+                        - regular_coordinates
+                        - irregular_coordinates
+                    - oneOf:
+                        - grid_resource
+                        - double_weibull
+                        - time_series
+                        - mast
+                additionalProperties:
+                    - elevation
+                properties:
+                    n_loc:
+                        type: integer
+                        description: >-
+                            number of locations
+                    regular_coordinates:
+                        type: object
+                        description: >-
+                            x, y and z are all arrays of unique numbers. Locations are obtained with a mesh grid.
+                        required:
+                            - x
+                            - y
+                        properties:
+                            x:
+                                type: array
+                                items:
+                                    type: number
+                            y:
+                                type: array
+                                items:
+                                    type: number
+                        additionalProperties:
+                            z:
+                                type: array
+                                items:
+                                    type: number
+                    irregular_coordinates:
+                        type: object
+                        description: >-
+                            x, y and z are all arrays of equal length where an index corresponds to a location.
+                        required:
+                            - x
+                            - y
+                        properties:
+                            x:
+                                type: array
+                                items:
+                                    type: number
+                            y:
+                                type: array
+                                items:
+                                    type: number
+                        additionalProperties:
+                            z:
+                                type: array
+                                items:
+                                    type: number
+                    grid_resource:
+                        required:
+                            - f
+                            - oneOf:
+                                - ws_mean
+                                - allOf:
+                                    - a
+                                    - k
+                        properties:
+                            f: 
+                                type: array # length of n_loc
+                                items:
+                                    type: array # length of n_sec
+                                    items:
+                                        type: number
+                            ws_mean: 
+                                type: array # length of n_loc
+                                items:
+                                    type: array # length of n_sec
+                                    items:
+                                        type: number
+                            a: 
+                                type: array # length of n_loc
+                                items:
+                                    type: array # length of n_sec
+                                    items:
+                                        type: number
+                            k: 
+                                type: array # length of n_loc
+                                items:
+                                    type: array # length of n_sec
+                                    items:
+                                        type: number
+                        additionalProperties:
+                            flow_inc: 
+                                type: array # length of n_loc
+                                items:
+                                    type: array # length of n_sec
+                                    items:
+                                        type: number
+                            meso_rgh: 
+                                type: array # length of n_loc
+                                items:
+                                    type: array # length of n_sec
+                                    items:
+                                        type: number
+                            obst_spd: 
+                                type: array # length of n_loc
+                                items:
+                                    type: array # length of n_sec
+                                    items:
+                                        type: number
+                            orog_spd: 
+                                type: array # length of n_loc
+                                items:
+                                    type: array # length of n_sec
+                                    items:
+                                        type: number
+                            power_density: 
+                                type: array # length of n_loc
+                                items:
+                                    type: array # length of n_sec
+                                    items:
+                                        type: number
+                            rix: 
+                                type: array # length of n_loc
+                                items:
+                                    type: array # length of n_sec
+                                    items:
+                                        type: number
+                            rgh_change: 
+                                type: array # length of n_loc
+                                items:
+                                    type: array # length of n_sec
+                                    items:
+                                        type: number
+                            rgh_spd: 
+                                type: array # length of n_loc
+                                items:
+                                    type: array # length of n_sec
+                                    items:
+                                        type: number
+                            ti: 
+                                type: array # length of n_loc
+                                items:
+                                    type: array # length of n_sec
+                                    items:
+                                        type: number
+#                            wind_speeds:
+#                                required:
+#                                    - wind_speed
+#                                    - wind_direction
+#                                    - probability
+#
